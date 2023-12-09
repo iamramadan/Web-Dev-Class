@@ -4,10 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Date Object</title>
+    <style>
+        #display{
+            width: fit-content;
+            height: fit-content;
+            border: solid saddlebrown 1px;
+            padding: 1rem;
+        }
+        .addcolor{
+            background-color: rgb(221, 218, 218);
+            color: black;
+        }
+        .addcolorblue{
+            background-color: blue;
+            color: white;
+        }
+        #head{
+            width: 100vw;
+            height: fit-content;
+            text-align: center;
+            padding: 1rem;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            background-color: brown;
+            font-size: x-large;
+            color: antiquewhite;
+        }
+    </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.css" integrity="sha512-r0fo0kMK8myZfuKWk9b6yY8azUnHCPhgNz/uWDl2rtMdWJlk7gmd9socvGZdZzICwAkMgfTkVrplDahQ07Gi0A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="../assets/js/date.js"></script>
 </head>
 <body>
+    <div id="head">
+        Date object sample
+    </div>
     <div class="container">
         <div class="dflex g-3">
             <div id="date"></div>
@@ -25,7 +54,7 @@
             <div class="btn-group p-3">
                 <button type="button" class="btn btn-danger" onclick="timeDiff()" title="Find Difference in time between date1 and date2">Time Difference</button>
                 <button type="button" class="btn btn-primary" onclick="timeSub()" title="Subtract Date2 from Date1">Time subtract</button>
-                <button type="button" class="btn btn-warning" onclick="" title="Add to Date1">Time Add</button>
+                <button type="button" class="btn btn-warning" onclick="timeAdd()" title="Add to Date1">Time Add</button>
 
             </div>
             <div id="display"></div>
@@ -52,7 +81,19 @@
 
     // Function to find date difference
     const timeDiff = () => {
-        displayDom.innerHTML = validate() ? moment(date2.value).diff(date1.value,'days') + " days" : errMsg
+        display = moment(date2.value).diff(date1.value,'days') 
+        // displayDom.innerHTML = display
+        if (display < 0) {
+             const added1 = "<div> days less </div>"
+            adjustedDisplayValue = parseInt(display) * -1
+            displayDom.innerHTML = adjustedDisplayValue + added1
+        } else if (display > 0){
+            const added = "<div> days more </div>"
+            displayDom.innerHTML = display + added
+        }else{
+            displayDom.innerHTML = errMsg
+        }
+        
     }
 
     const timeSub = () => {
@@ -64,9 +105,32 @@
         }
         if(number !== undefined){
             displayDom.innerHTML = moment(date1.value).subtract(number,unit)
+            displayDom.classList.toggle('addcolor')
+            displayDom.classList.add('addcolorblue')
         }
        }else{
         displayDom.innerHTML = errMsg2
+        displayDom.classList.add('addcolor')
+        
+        
+       }
+    }
+    const timeAdd = () => {
+    if (validate(false)){
+        let unitadd = prompt("Unit to Add ('days | weeks | months')")
+        let numberadd = undefined
+        if(unitadd){
+            numberadd = prompt(`How many ${unitadd} do you want to add? Just numbers`)
+        }
+        if(numberadd !== undefined){
+            displayDom.innerHTML = moment(date1.value).add(numberadd,unitadd) 
+            displayDom.classList.toggle('addcolor')
+            displayDom.classList.add('addcolorblue')
+        }
+       }else{
+        displayDom.innerHTML = errMsg2
+        displayDom.classList.add('addcolor')
+        
        }
     }
 </script>
